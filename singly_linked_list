@@ -1,1 +1,206 @@
 
+#include <stdio.h>
+#include <stdlib.h>
+struct node
+{
+    int data;
+    struct node *next;
+
+};
+struct node *head=NULL;
+struct node *second=NULL;
+//creation of a singly linked list 
+struct node *create(struct node *head , int n)
+{
+    for(int i=0 ;i<n ;i++)
+    {
+    struct node *nnode;
+    nnode= (struct node *)malloc (sizeof(struct node));
+    int dataa;
+    printf("enter the data- ");
+    scanf("%d",&dataa);
+    struct node *ii;
+    ii=head;
+    if(head==NULL)
+    {
+        nnode->data=dataa;
+        nnode->next=NULL;
+        head=nnode;
+        ii=head;
+    }
+    else 
+    {
+        while(ii->next)
+        {
+            ii=ii->next;
+        }
+        nnode->data=dataa;
+        nnode->next=NULL;
+        ii->next=nnode;
+
+    }
+    }
+    return head;
+}
+//printing a singly linked list 
+struct node *print(struct node *head)
+{
+    struct node *ii=head;
+
+    while(ii)
+    {
+          if(head==NULL)
+          {
+            printf("list is null");
+          }
+          else{
+            printf("%d->",ii->data);
+            ii=ii->next;
+          }
+
+
+    }
+    printf("\n");
+    return head;
+}
+//insertion in a linked list 
+//all three cases - beginning ,end ,any position 
+struct node *insert(struct node *head ,int val,int pos) 
+{
+    struct node *new_node=(struct node*)malloc(sizeof(struct node));
+    struct node *p=head;
+    struct node *r=head;
+      new_node->data=val;
+      if(pos==0)
+      {
+        new_node->next=head;
+        head=new_node;
+      }
+      else
+      {
+        for(int i=0 ;i<pos;i++)
+        {
+            p=r;
+            r=r->next;
+        }
+        p->next=new_node;
+        new_node->next=r;
+      }
+      return head;
+}
+//deletion in a linked list
+//all three cases 
+struct node *delete(struct node *head ,int pos)
+{
+    struct node *ii=head;
+    struct node *p=head;
+    if(pos==0)
+    {
+        head=head->next;
+        free(ii);
+    }
+    else 
+    {
+        for(int i=0 ;i<pos;i++)
+        {
+            p=ii;
+
+            ii=ii->next;
+            
+        }
+        p->next=ii->next;
+        free(ii);
+    }
+    return head;
+}
+
+//concatenation of a singly list
+struct node *concat(struct node *head ,struct node *second)
+{
+   
+    struct node *p=head;
+    while(p->next)
+    {
+        p=p->next;
+
+    }
+    p->next=second ;
+    return head;
+}
+//reversal of a linked list 
+struct node *reverse(struct node *head)
+{
+    struct node *h=head;
+    struct node *p =NULL;
+      struct node *c=NULL;
+      while(h)
+      {
+         p=h->next;
+         h->next=c;
+         c=h;
+         h=p;
+
+
+      }
+      head=c;
+return head;
+}
+int main()
+{
+    while(1)
+    {
+    printf("***************MENU*******************\n");
+    printf("1. To create a list\n");
+    printf("2. To add to a list\n");
+    printf("3. To delete from a list\n");
+    printf("4. To concatenate a list\n");
+    printf("5. To reverse  a list\n");
+    printf("6. To Exit\n");
+    int choice ;
+    printf("enter your choice-  ");
+    scanf("%d",&choice);
+    switch(choice)
+    {
+        case 1:
+            int n;
+            printf("enter the no of nodes you want-");
+            scanf("%d",&n);
+            head=create(head,n);
+            head=print(head);
+            break;
+        case 2:
+           int val;
+           int pos;
+           printf("enter the value you want to enter-");
+           scanf("%d",&val);
+           printf("enter the position you want to enter-");
+           scanf("%d",&pos);
+           head=insert(head,val,pos);
+           head=print(head);
+           break;
+        case 3:
+             int ppos;
+               printf("enter the position you want to delete-");
+           scanf("%d",&ppos);
+           head=delete(head,ppos);
+           head=print(head);
+           break;
+         case 4:
+            printf("enter the values for the second list-\n");
+            int nn;
+            printf("enter the no of nodes you want-");
+            scanf("%d",&nn);
+           second=create(second,nn);
+           head=concat(head,second);
+           head=print(head);
+           break;
+        case 5:
+         head=reverse(head);
+         head=print(head);
+         break;
+        case 6:
+        return 0;
+    }
+    }
+
+}
