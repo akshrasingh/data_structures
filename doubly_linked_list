@@ -1,4 +1,4 @@
-//circular linked list 
+//doubly linked list 
 #include<stdio.h>
 #include<stdlib.h>
 //node creation for linked list same in all cases
