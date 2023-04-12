@@ -1,0 +1,331 @@
+//circular linked list 
+#include<stdio.h>
+#include<stdlib.h>
+//node creation for linked list same in all cases
+struct node
+{
+    int data;
+    struct node *next;
+    struct node *prev;
+
+};
+struct node *head=NULL;
+struct node *second=NULL;
+struct node *create(struct node *head,int n)
+{
+    for(int i=0;i<n;i++)
+    {
+        struct node *p=head;
+        struct node *r=head;
+        struct node *node_n=(struct node*)malloc(sizeof(struct node));
+        int data;
+        printf("enter the data- ");
+        scanf("%d",&data);
+        node_n->data=data;
+        if(head==NULL)
+        {
+               node_n->prev=NULL;
+               node_n->next=NULL;
+               head=node_n;
+        }
+        else{
+            while(p->next!=NULL)
+            {
+                r=p;
+                p=p->next;
+                p->prev=r;
+            }
+            p->next=node_n;
+            node_n->next=NULL;
+            node_n->prev=p;
+
+
+        }
+
+    }
+    return head;
+}
+struct node *print(struct node *head)
+{
+    struct node *p=head;
+    while(p!=NULL)
+    {
+        printf("%d->  ",p->data);
+        p=p->next;
+    }
+    return head;
+}
+struct node *insert_beg(struct node *head,int data)
+{
+    struct node *p=head;
+    struct node *r=head;
+
+     struct node  *node_n=(struct node*)malloc(sizeof(struct node));
+     
+        node_n->data=data;
+    if(head==NULL)
+    {
+           node_n->next=NULL;
+           node_n->prev=NULL;
+           head=node_n;
+
+    }
+    else
+    {
+        node_n->prev=NULL;
+        head->prev=node_n;
+        node_n->next=head;
+        head=node_n;
+    }
+    
+  
+    return head;
+}
+ struct node *insert_rand(struct node *head ,int val ,int pos)
+{
+        struct node *p=head;
+    struct node *r=head;
+
+     struct node *node_n=(struct node*)malloc(sizeof(struct node));
+    node_n->data=val;
+    if(head==NULL)
+    {
+           node_n->next=NULL;
+           node_n->prev=NULL;
+           head=node_n;
+
+    }
+    else{
+        
+       for(int i=0 ;i<pos ;i++)
+        {
+             r=p;
+             p=p->next;
+
+        }
+        r->next=node_n;
+        node_n->prev=r;
+        node_n->next=p;
+        p->prev=node_n;
+
+    }
+    
+return head;
+
+    }
+struct node *insert_end(struct node *head ,int data)
+{
+     struct node *p=head;
+    struct node *r=head;
+
+     struct node *node_n=(struct node*)malloc(sizeof(struct node));
+      
+        node_n->data=data;
+    if(head==NULL)
+    {
+           node_n->next=NULL;
+           node_n->prev=NULL;
+           head=node_n;
+
+    }
+    else{
+        while(p->next!=NULL)
+        {
+            p=p->next;
+
+        }
+        p->next=node_n;
+        node_n->prev=p;
+        node_n->next=NULL;
+    }
+    return head;
+}   
+
+
+struct node *del_beg(struct node *head){
+     struct node *p=head; 
+      if(head==NULL)
+      {
+        printf("list not exists");
+
+      }
+      else{
+           head=head->next;
+           head->prev=NULL;
+           free(p);
+      }
+      return head;
+}
+struct node *del_end(struct node *head)
+{
+     struct node *p=head; 
+     struct node *r=head;
+      if(head==NULL)
+      {
+        printf("list not exists");
+
+      }
+      else{
+           while(p->next!=NULL)
+           {
+            r=p;
+            p=p->next;
+           }
+           r->next=NULL;
+           free(p);
+      }
+      return head;
+}
+struct node *del_rand(struct node *head ,int pos)
+{
+ struct node *p=head; 
+     struct node *r=head;
+     struct node *g;
+      if(head==NULL)
+      {
+        printf("list not exists");
+
+      }
+      else{
+           for(int i=0 ;i<pos;i++)
+           {
+           r=p;
+           p=p->next;
+      }
+      r->next=p->next;
+       g=p;
+       p=p->next;
+       p->prev=r;
+       free(g);
+      }
+      return head;
+        
+}
+struct node *concat(struct node *head,struct node *second)
+{
+    struct node *p=head;
+    struct node *q=second;
+    while(p->next!=NULL)
+    {
+        p=p->next;
+    }
+    p->next=second;
+    q->prev=p;
+    return head;
+
+}
+struct node *reverse(struct node *head)
+{
+    struct node *p=head;
+    struct node *q=NULL;
+    struct node *r=NULL;
+    while(p)
+    {
+       q=p->next;
+       p->next=r;
+       r=p;
+       p=q;
+
+    }
+    head=r;
+    return head;
+}
+int main()
+{
+    
+    while(1)
+    {
+    printf("***************MENU*******************\n");
+    printf("1. To create a list\n");
+    printf("2. To add to beg of a list\n");
+    printf("3. To add to end of a list\n");
+    printf("4. To add to randon of a list\n");
+    printf("5. To delete from  beginning of a list\n");
+    printf("6. To delete from  end of a list\n");
+    printf("7. To delete from  any position of a list\n");
+    printf("8. To concatenate a list\n");
+    printf("9. To reverse  a list\n");
+    printf("10. To Exit\n");
+    int choice ;
+    printf("enter your choice-  ");
+    scanf("%d",&choice);
+    switch(choice)
+    {
+        case 1:
+            int n;
+            printf("enter the no of nodes you want-");
+            scanf("%d",&n);
+            head=create(head,n);
+            head=print(head);
+            break;
+        
+        case 2:
+           int val;
+           int pos;
+           printf("enter the value you want to enter-");
+           scanf("%d",&val);
+         
+           head=insert_beg(head,val);
+           head=print(head);
+           break;
+           
+            case 3:
+           int vval;
+           int ppos;
+           printf("enter the value you want to enter-");
+           scanf("%d",&vval);
+           head=insert_end(head,vval);
+           head=print(head);
+           break;
+           
+            case 4:
+           int vaal;
+           int poos;
+           printf("enter the value you want to enter-");
+           scanf("%d",&vaal);
+           printf("enter the position you want to enter");
+           scanf("%d",&poos);
+
+           head=insert_rand(head,vaal,poos);
+           head=print(head);
+           break;
+           
+            case 5:
+
+           head=del_beg(head);
+           head=print(head);
+           break;
+            case 6:
+
+           head=del_end(head);
+           head=print(head);
+           break;
+        case 7:
+             int ppoos;
+               printf("enter the position you want to delete-");
+           scanf("%d",&ppoos);
+           head=del_rand(head,ppoos);
+           head=print(head);
+           break;
+          
+         case 8:
+            printf("enter the values for the second list-\n");
+            int nn;
+            printf("enter the no of nodes you want-");
+            scanf("%d",&nn);
+           second=create(second,nn);
+           head=concat(head,second);
+           head=print(head);
+           break;
+           
+        case 9:
+         head=reverse(head);
+         head=print(head);
+         break;
+        case 10:
+        return 0;
+        
+    }
+    
+}
+}
