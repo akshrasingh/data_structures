@@ -1,0 +1,90 @@
+
+//sequential file organisation 
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct 
+{
+    int usn;
+    char name[25];
+    int m1,m2,m3,m4,m5;
+    
+}STD;
+STD s ;
+void display(FILE *p);
+int search(FILE *p ,int a);
+int main()
+{
+    int i ,usn_n ,opn;
+    FILE *p;
+    int n;
+    printf("how many records\n");
+    scanf("%d",&n);
+    p=fopen("stud.dat","w");
+    for(int i=0 ;i<n;i++)
+    {
+        printf("read the info for students %d (usn ,name ,m1,m2,m3,m4,m5\n", i+1);
+        scanf("%d%s%d%d%d%d%d",&s.usn,s.name,&s.m1,&s.m2,&s.m3,&s.m4,&s.m5);
+      fwrite(&s,sizeof(s),1,p);  
+    }
+    fclose(p);
+    p=fopen("stud.dat","r");
+    printf("Press 1 display\n");
+    printf("Press 2 search\n");
+    printf("Press 3 exit \n");
+    while(1)
+    {
+        int ch;
+
+    printf("enter you choice- ");
+    scanf("%d",&ch);
+    switch(ch)
+    {
+        case 1:
+          printf("the records are - \n");
+          display(p);
+          break;
+         case 2 :
+          printf("enter the usn of the user to be searched- ");
+          int usn;
+          scanf("%d",&usn);
+          if(search(p,usn))
+          {
+              printf("sucess ! record found in records\n");
+              printf("%d\t%s\t%d\t%d\t%d\t%d\t%d\n",s.usn,s.name,s.m1,s.m2,s.m3,s.m4,s.m5);
+          }
+              else
+              {
+                  printf("record not found \n");
+              }
+              break;
+            case 3:
+               return 0;
+             default:
+              printf("invalid option\n");
+              break;
+          
+    }
+    }
+        fclose(p);
+}
+void display(FILE *p)
+{
+    rewind(p);
+    while(fread(&s,sizeof(s),1,p))
+    {
+        printf("%d\t%s\t%d\t%d\t%d\t%d\t%d\n",s.usn,s.name,s.m1,s.m2,s.m3,s.m4,s.m5);
+    }
+    
+}
+int search(FILE *p,int key)
+{
+    rewind(p);
+      while(fread(&s,sizeof(s),1,p))
+      {
+          if(s.usn== key)
+          return 1;
+          
+      }
+      return 0;
+    
+}
