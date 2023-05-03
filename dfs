@@ -1,1 +1,66 @@
 
+#include<stdio.h>
+#include<stdlib.h>
+struct node
+{
+    int vertex;
+    struct node *next;
+};
+struct node *graph[200];
+int visited[200];
+void inti()
+{
+    for(int i=0;i<200;i++)
+    {
+        visited[i]=0;
+        graph[i]=0;
+    }
+}
+void addedge(int s ,int d)
+{
+    struct node *nn=(struct node*)malloc(sizeof(struct node));
+    nn->vertex=s;
+    nn->next=graph[d];
+    graph[d]=nn;
+     struct node *nu=(struct node*)malloc(sizeof(struct node));
+    nu->vertex=d;
+    nu->next=graph[s];
+    graph[s]=nu;
+    
+}
+void dfs(int s)
+{
+     visited[s]=1;
+     printf("%d -- ",s);
+     struct node *r =graph[s];
+     while(r)
+     {
+         int c=r->vertex;
+         if(!visited[c])
+         {
+             dfs(c);
+         }
+         r=r->next;
+     }
+     
+}
+int main()
+{
+    inti();
+    printf("enter the no of vertices you want\n");
+    int n;
+    scanf("%d",&n);
+    for(int i=0 ;i<n ;i++)
+    {
+        printf("enter the source and destination for the vertex - ");
+        int s;
+        int d;
+        scanf("%d %d",&s,&d);
+        addedge(s,d);
+        
+    }
+    printf("enter the source key");
+    int key;
+    scanf("%d",&key);
+    dfs(key);
+}
