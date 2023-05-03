@@ -1,0 +1,121 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct node
+{
+
+    int data;
+    struct node *left;
+    struct node *right;
+};
+struct node *head=NULL;
+struct node *create(struct node *head,int data )
+{
+    struct node *p=head;
+    struct node *nn=(struct node*)malloc(sizeof(struct node));
+  
+    nn->data=data;
+    nn->left=NULL;
+    nn->right=NULL;
+    head=nn;
+    return nn;
+    
+}
+struct node *insert(struct node *head,int data)
+{
+    if(head==NULL)
+    {
+        return create(head,data);
+    }
+    else if(data>head->data)
+    {
+        head->right=insert(head->right,data);
+        
+    }
+    else if (data<head->data)
+    {
+        head->left=insert(head->left,data);
+    }
+    return head;
+}
+struct node *inorder(struct node *head)
+{
+    if(head==NULL)
+    return 0;
+    inorder(head->left);
+    printf("%d-->",head->data);
+    inorder(head->right);
+}
+struct node *preorder(struct node *head)
+{
+    if(head==NULL)
+    return 0;
+    printf("%d-->",head->data);
+    preorder(head->left);
+    preorder(head->right);
+}
+struct node *postorder(struct node *head)
+{
+    if(head==NULL)
+    return 0;
+ 
+    postorder(head->left);
+    postorder(head->right);
+       printf("%d-->",head->data);
+}
+struct node *min(struct node *o)
+{
+    struct node *g;
+   while(g->left)
+   {
+       g=g->left;
+   }
+   return g;
+}
+struct node *delete(struct node *head , int pos)
+{
+    if(head==NULL)
+      return head;
+    if(pos>head->data)
+    {
+        head->right=delete(head->right,pos);
+    }
+    else if (pos<head->data)
+    {
+         head->left=delete(head->left,pos);
+    }
+    else
+    {
+         if(head->left==NULL)
+         {
+             struct node *temp=head->right;
+             free(head);
+             return temp;
+         }
+         else if(head->right==NULL)
+         {
+             struct node *temp1=head->left;
+             free(head);
+             return temp1;
+         }
+         struct node *c = min(head->right);
+         head->data=c->data;
+         head->right=delete(head->right,c->data);
+    }
+    return head;
+}
+int main()
+{
+    for(int i=0 ;i<5;i++)
+    {
+        printf("enter the data");
+        int data;
+        scanf("%d",&data);
+        head=insert(head,data);
+        
+    }
+        inorder(head);
+        printf("\n\n\n");
+       head= delete(head,2);
+        inorder(head);
+    
+}
